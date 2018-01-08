@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TapJump", "TapJump.csproj", "{3BE8C98C-4D9C-459C-77D5-E42CED54E860}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TapJump.Plugins", "TapJump.Plugins.csproj", "{4A22371F-01A5-C16F-CD63-A0A4D2018132}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TapJump.Editor", "TapJump.Editor.csproj", "{E56DAFE7-4B43-CDA3-228D-C3FE0425858D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3BE8C98C-4D9C-459C-77D5-E42CED54E860}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BE8C98C-4D9C-459C-77D5-E42CED54E860}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BE8C98C-4D9C-459C-77D5-E42CED54E860}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BE8C98C-4D9C-459C-77D5-E42CED54E860}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A22371F-01A5-C16F-CD63-A0A4D2018132}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A22371F-01A5-C16F-CD63-A0A4D2018132}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A22371F-01A5-C16F-CD63-A0A4D2018132}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A22371F-01A5-C16F-CD63-A0A4D2018132}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E56DAFE7-4B43-CDA3-228D-C3FE0425858D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E56DAFE7-4B43-CDA3-228D-C3FE0425858D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E56DAFE7-4B43-CDA3-228D-C3FE0425858D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E56DAFE7-4B43-CDA3-228D-C3FE0425858D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
