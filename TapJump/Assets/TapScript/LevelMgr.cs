@@ -62,7 +62,6 @@ public class LevelMgr : MonoBehaviour {
     }
 
 
-
     const float r = 0.2f;
     public float maxX;
     public float minX;
@@ -128,7 +127,23 @@ public class LevelMgr : MonoBehaviour {
 
     }
 
+    void Playing_Update()
+    {
+       if(_ball != null)
+        {
+            _ball.Playing_Update();
+        } 
+    }
 
+    public void Tap()
+    {
+        if(_ball != null)
+        {
+
+            _ball.Taping();
+        }
+
+    }
     void Playing_Exit()
     {
         if (CtrlListeners != null)
@@ -158,4 +173,14 @@ public class LevelMgr : MonoBehaviour {
         LoseMenu.SetActive(false);
     }
     #endregion Lose
+
+
+    #region Ball
+    Ball _ball;
+    public void RegisterBall(Ball bal)
+    {
+        _ball = bal;
+
+    }
+    #endregion Ball
 }

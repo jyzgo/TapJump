@@ -5,9 +5,6 @@ using System;
 public class BGResize : MonoBehaviour,ICtrlAble {
 
     SpriteRenderer sr;
-    public Transform ballPos;
-    public Transform startPos;
-    public Transform endPos;
     void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
@@ -16,8 +13,7 @@ public class BGResize : MonoBehaviour,ICtrlAble {
 	// Use this for initialization
 	void Start () {
         Resize();
-
-
+        LevelMgr.current.CtrlListeners += this.SetCtrlAble;
     }
     void Resize()
     {
@@ -59,58 +55,16 @@ public class BGResize : MonoBehaviour,ICtrlAble {
             var v3 = Input.mousePosition;
             v3.z = 10f;
             touchPos = Camera.main.ScreenToWorldPoint(v3);
-            startPos.position = touchPos;
-            arrow.transform.position = ballPos.position;
-            //var inst = Instantiate<GameObject>(ballPrefab);
-            //var sc = inst.GetComponent<ball>();
-            //var nSp = v3 - startPos.position;
-            //sc.speed = nSp.normalized * 0.2f;
-            //inst.transform.position = startPos.position;
-        }
+           LevelMgr.current.Tap();
+       }
 
-    }
-
-    private void OnMouseDrag()
-    {
-        if (_ctrlAble)
-        {
-            var v3 = Input.mousePosition;
-            v3.z = 10f;
-            dragPos = Camera.main.ScreenToWorldPoint(v3);
-
-            endPos.position = dragPos;
-
-            if (dragPos.y > touchPos.y || Vector3.Distance(dragPos,touchPos) <= MIN_DIS)
-            {
-                arrow.SetActive(false);
-            }
-            else
-            {
-                
-                arrow.SetActive(true);
-                arrow.transform.position = ballPos.position;
-                Vector3 vectorToTarget = dragPos - startPos.position;
-                float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg;
-                Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
-
-                arrow.transform.rotation = q;
-
-                
-
-                var distance = Vector3.Distance(dragPos, touchPos);
-                float scale = Mathf.Clamp(distance / DIS, 1f, 4f);
-                arrow.transform.localScale = new Vector3(scale,scale);
-            }
-
-
-        }
     }
 
     const float DIS = 0.5f;
     const float MIN_DIS = 0.4f;
     private void OnMouseUp()
     {
-        arrow.SetActive(false);
+
 
         if(_ctrlAble)
         {
@@ -130,6 +84,5 @@ public class BGResize : MonoBehaviour,ICtrlAble {
         _ctrlAble = b;
     }
 
-    public GameObject arrow;
 
 }

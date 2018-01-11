@@ -412,9 +412,6 @@
     <Compile Include="Assets\Lib\MonsterLove\StateMachine\StateMachineRunner.cs" />
     <Compile Include="Assets\Lib\MouseLook.cs" />
     <Compile Include="Assets\Lib\Util.cs" />
-    <Compile Include="Assets\Script\LevelMgr.cs" />
-    <Compile Include="Assets\Script\Tools\ComponentPool.cs" />
-    <Compile Include="Assets\Script\Tools\SFXPool.cs" />
     <Compile Include="Assets\Scripts\Ad\AdMgr.cs" />
     <Compile Include="Assets\Scripts\BGMPlayer.cs" />
     <Compile Include="Assets\Scripts\RshkAds.cs" />
@@ -426,6 +423,10 @@
     <Compile Include="Assets\Scripts\TrackData\TrackData.cs" />
     <Compile Include="Assets\SlideIn.cs" />
     <Compile Include="Assets\SoEncrypt.cs" />
+    <Compile Include="Assets\TapScript\Ball.cs" />
+    <Compile Include="Assets\TapScript\LevelMgr.cs" />
+    <Compile Include="Assets\TapScript\Tools\ComponentPool.cs" />
+    <Compile Include="Assets\TapScript\Tools\SFXPool.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Adjust\Android\AdjustAndroidManifest.xml" />
