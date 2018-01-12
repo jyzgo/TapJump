@@ -11,17 +11,22 @@ public interface ICtrlAble
     void SetCtrlAble(bool b);
 }
 
+public interface IPlayState
+{
+    void Play_Enter();
+    void Play_Update();
+    void Play_Exit();
+}
+
 [DefaultExecutionOrder(-1)]
 public class LevelMgr : MonoBehaviour {
     public enum LevelState
     {
         Menu,
         Playing,
+        Lose
 
     }
-
-    
-
 
     public Text Score;
 
@@ -37,7 +42,17 @@ public class LevelMgr : MonoBehaviour {
     {
         //Score.text = moveTimes.ToString();// currentScore + "/" + maxScore; 
     }
-   public Action<bool> CtrlListeners;
+    public Action<bool> CtrlListeners;
+    public HashSet<IPlayState> _playUpdateSet = new HashSet<IPlayState>();
+    public void RegisterPlayState(IPlayState item)
+    {
+        _playUpdateSet.Add(item);
+    }
+
+    public void UnRegisterPlayState(IPlayState item)
+    {
+        _playUpdateSet.Remove(item);
+    }
 
     public static LevelMgr current;
 
@@ -50,16 +65,18 @@ public class LevelMgr : MonoBehaviour {
         current = this;
         AdMgr.RegisterAllAd();
         AdMgr.ShowDownAdmobBanner();
-        Application.targetFrameRate = 60; 
+        AdMgr.ShowDownAdmobBanner();
+        Application.targetFrameRate = 60;
         Vector3 max = new Vector3(Screen.width, Screen.height, 10f);
         Vector3 min = new Vector3(0, 0, 10f);
 
         max = Camera.main.ScreenToWorldPoint(max);
         min = Camera.main.ScreenToWorldPoint(min);
 
-       AdMgr.ShowDownAdmobBanner();
-
+        _camera = Camera.main.transform;
+        _camOriginalPos = _camera.position;
     }
+    Vector3 _camOriginalPos;
 
 
     const float r = 0.2f;
@@ -97,7 +114,6 @@ public class LevelMgr : MonoBehaviour {
         AdMgr.PreloadAdmobInterstitial();
         PlayMenu.SetActive(false);
 
-        StartGame();
 
         UpdateScore();
 
@@ -110,37 +126,47 @@ public class LevelMgr : MonoBehaviour {
         fsm.ChangeState(LevelState.Playing);
     }
 
-      
-        
 
-   void StartGame()
-    {
-    }
 
     void Playing_Enter()
     {
+        _camera.transform.position = _camOriginalPos;
 
         if (CtrlListeners != null)
         {
             CtrlListeners(true);
         }
 
+        foreach(var b in _playUpdateSet)
+        {
+            b.Play_Enter();
+        }
+
     }
 
+    Transform _camera;
     void Playing_Update()
     {
        if(_ball != null)
         {
             _ball.Playing_Update();
-        } 
+        }
+       foreach(var b in _playUpdateSet)
+        {
+            b.Play_Update();
+        }
+
+       // _camera.position += CAMERA_SPEED; 
+
+       
     }
 
-    public void Tap()
+    public void Tap(float x)
     {
         if(_ball != null)
         {
 
-            _ball.Taping();
+            _ball.Taping(x);
         }
 
     }
@@ -149,6 +175,11 @@ public class LevelMgr : MonoBehaviour {
         if (CtrlListeners != null)
         {
             CtrlListeners(false);
+        }
+
+        foreach(var b in _playUpdateSet)
+        {
+            b.Play_Exit();
         }
     }
 	
@@ -162,6 +193,12 @@ public class LevelMgr : MonoBehaviour {
         fsm.ChangeState(LevelState.Menu);
     }
     #region Lose
+
+    public void ToLose()
+    {
+        fsm.ChangeState(LevelState.Lose);
+    }
+
     public GameObject LoseMenu;
     void Lose_Enter()
     {

@@ -9,11 +9,18 @@ public class Ball : MonoBehaviour,ICtrlAble {
 
     const float DELTA_SPEED = -0.01f;
     const float JUMP_SPEED = 0.2f;
-    const float HONRIZONTAL_SPEED = 0.03f;
+    const float HONRIZONTAL_SPEED = 0.04f;
 
     float _currentSpeed = 0f;
-    public void Taping()
+    public void Taping(float x)
     {
+        if(x > 0)
+        {
+            _horizontalDir = -1;
+        }else
+        {
+            _horizontalDir = 1;
+        }
         _currentSpeed = JUMP_SPEED;
 
     }
@@ -51,17 +58,27 @@ public class Ball : MonoBehaviour,ICtrlAble {
     float _horizontalDir = 1f;
     public void Playing_Update()
     {
+        Vector3 originPos = transform.position;
         float x = transform.position.x;
         if(x < minX)
         {
-            _horizontalDir = 1;
+            transform.position = new Vector3(maxX, originPos.y, originPos.z);
         }else if(x > maxX)
         {
-            _horizontalDir = -1;
+
+            transform.position = new Vector3(minX, originPos.y, originPos.z);
         }
+        //if(x < minX)
+        //{
+        //    _horizontalDir = 1;
+        //}else if(x > maxX)
+        //{
+        //    _horizontalDir = -1;
+        //}
         _currentSpeed += DELTA_SPEED;
         Vector3 offset = new Vector3(HONRIZONTAL_SPEED * _horizontalDir, _currentSpeed,0f);
         transform.localPosition+= offset;
+
 
 
     }
@@ -71,6 +88,17 @@ public class Ball : MonoBehaviour,ICtrlAble {
     {
         _isCtrlAble = b;
 
+    }
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Spike sp = collision.GetComponent<Spike>();
+        if(sp != null)
+        {
+            LevelMgr.current.ToLose();
+
+        }
     }
 
 }

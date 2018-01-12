@@ -425,6 +425,8 @@
     <Compile Include="Assets\SoEncrypt.cs" />
     <Compile Include="Assets\TapScript\Ball.cs" />
     <Compile Include="Assets\TapScript\LevelMgr.cs" />
+    <Compile Include="Assets\TapScript\Spike.cs" />
+    <Compile Include="Assets\TapScript\SpikeManager.cs" />
     <Compile Include="Assets\TapScript\Tools\ComponentPool.cs" />
     <Compile Include="Assets\TapScript\Tools\SFXPool.cs" />
   </ItemGroup>
