@@ -123,6 +123,7 @@ public class Obstacle : MonoBehaviour,IPlayState {
         if(b != null)
         {
             _life--;
+            Rocket.current.RetriveBullet(b); 
             UpdateLife();
         }
     }
@@ -147,9 +148,19 @@ public class Obstacle : MonoBehaviour,IPlayState {
     public void Play_Update()
     {
   
-        sp.transform.Rotate(new Vector3(0, 0, _dir));
+        //sp.transform.Rotate(new Vector3(0, 0, _dir));
+
         transform.position += new Vector3(_horizontalSpeed, 0, 0);
-		
+        Vector3 oriPos = transform.position;
+        
+        if (oriPos.x < LevelMgr.current.minX)
+        {
+            transform.position = new Vector3(LevelMgr.current.maxX, oriPos.y, oriPos.z);
+        }
+		else if(oriPos.x > LevelMgr.current.maxX)
+        {
+            transform.position = new Vector3(LevelMgr.current.minX, oriPos.y, oriPos.z);
+        }
     }
 
     public void Play_Exit()

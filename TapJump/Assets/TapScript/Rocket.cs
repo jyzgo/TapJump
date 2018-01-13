@@ -121,6 +121,11 @@ public class Rocket : MonoBehaviour,ICtrlAble,IPlayState,IMenuState {
         Vector3 offset = new Vector3(HONRIZONTAL_SPEED * _horizontalDir, _currentSpeed,0f);
         transform.localPosition+= offset;
 
+        if(transform.position.y < LevelMgr.current.minY || transform.position.y > LevelMgr.current.maxY)
+        {
+            LevelMgr.current.ToLose();
+        }
+
 
     }
 

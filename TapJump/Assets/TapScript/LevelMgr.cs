@@ -90,6 +90,11 @@ public class LevelMgr : MonoBehaviour {
         max = Camera.main.ScreenToWorldPoint(max);
         min = Camera.main.ScreenToWorldPoint(min);
 
+        maxX = max.x;
+        minX = min.x;
+        maxY = max.y;
+        minY = min.y;
+
         _camera = Camera.main.transform;
         _camOriginalPos = _camera.position;
     }
