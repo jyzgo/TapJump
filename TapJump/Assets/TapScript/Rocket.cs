@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Rocket : MonoBehaviour,ICtrlAble {
+public class Rocket : MonoBehaviour,ICtrlAble,IPlayState,IMenuState {
 
     ComponentPool<Bullet> _bulletPool;
     public static Rocket current;
@@ -36,14 +36,17 @@ public class Rocket : MonoBehaviour,ICtrlAble {
         yield return new WaitForSeconds(0.1f);
         _glow.enableEmission = false;
     }
+    Vector3 originPos;
     void Awake()
     {
-
+        originPos = transform.position;
     }
 	// Use this for initialization
 	void Start () {
         LevelMgr.current.CtrlListeners += this.SetCtrlAble;
         LevelMgr.current.RegisterBall(this);
+        LevelMgr.current.RegisterPlayState(this);
+        LevelMgr.current.RegisterMenuState(this);
         Vector3 max = new Vector3(Screen.width, Screen.height, 10f);
         Vector3 min = new Vector3(0, 0, 10f);
         _bulletPool = new ComponentPool<Bullet>(5, bulletPrefab);
@@ -58,6 +61,7 @@ public class Rocket : MonoBehaviour,ICtrlAble {
         _glow.Play();
         _glow.enableEmission = false;
 
+
 	}
     float minX;
     float minY;
@@ -66,31 +70,6 @@ public class Rocket : MonoBehaviour,ICtrlAble {
     const float FIRE_INTERVAL = 0.1f;
     float _last_fire = 0f;
     float _horizontalDir = 1f;
-    public void Playing_Update()
-    {
-        if (Time.time > _last_fire + FIRE_INTERVAL)
-        {
-            _last_fire = Time.time;
-            var b = _bulletPool.GetUnusedOne();
-            b.transform.position = transform.position;
-        }
-        Vector3 originPos = transform.position;
-        float x = transform.position.x;
-        if(x < minX)
-        {
-            transform.position = new Vector3(maxX, originPos.y, originPos.z);
-        }else if(x > maxX)
-        {
-
-            transform.position = new Vector3(minX, originPos.y, originPos.z);
-        }
-        _currentSpeed += DELTA_SPEED;
-        Vector3 offset = new Vector3(HONRIZONTAL_SPEED * _horizontalDir, _currentSpeed,0f);
-        transform.localPosition+= offset;
-
-
-
-    }
 
     bool _isCtrlAble = false;
     public void SetCtrlAble(bool b)
@@ -115,4 +94,50 @@ public class Rocket : MonoBehaviour,ICtrlAble {
         }
     }
 
+    public void Play_Enter()
+    {
+        transform.position = originPos;
+    }
+
+    public void Play_Update()
+    {
+        if (Time.time > _last_fire + FIRE_INTERVAL)
+        {
+            _last_fire = Time.time;
+            var b = _bulletPool.GetUnusedOne();
+            b.transform.position = transform.position;
+        }
+        Vector3 originPos = transform.position;
+        float x = transform.position.x;
+        if(x < minX)
+        {
+            transform.position = new Vector3(maxX, originPos.y, originPos.z);
+        }else if(x > maxX)
+        {
+
+            transform.position = new Vector3(minX, originPos.y, originPos.z);
+        }
+        _currentSpeed += DELTA_SPEED;
+        Vector3 offset = new Vector3(HONRIZONTAL_SPEED * _horizontalDir, _currentSpeed,0f);
+        transform.localPosition+= offset;
+
+
+    }
+
+    public void Play_Exit()
+    {
+    }
+
+    public void Menu_Enter()
+    {
+        transform.position = originPos;
+    }
+
+    public void Menu_Update()
+    {
+    }
+
+    public void Menu_Exit()
+    {
+    }
 }

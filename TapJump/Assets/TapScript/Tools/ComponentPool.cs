@@ -28,6 +28,11 @@ public class ComponentPool <T> where T: Component {
         return com;
     }
 
+    public HashSet<T> GetUsedSet()
+    {
+        return _usedSet;
+    }
+
     public T GetUnusedOne()
     {
         T thing = null;
@@ -44,8 +49,9 @@ public class ComponentPool <T> where T: Component {
         }
 
         _unused.Remove(thing);
-    
+        _usedSet.Add(thing);
         thing.gameObject.SetActive(true);
+
         return thing;
 
         
@@ -56,11 +62,23 @@ public class ComponentPool <T> where T: Component {
         if (thing != null )
         {
             thing.gameObject.SetActive(false);
+            _usedSet.Remove(thing);
             _unused.Add(thing);
         }
 
     }
 
+    public void RetriveAll()
+    {
+        foreach(var thing in _usedSet)
+        {
+            thing.gameObject.SetActive(false); 
+            _unused.Add(thing);
+        }
+        _usedSet.Clear();
+    }
+
     HashSet<T> _unused = new HashSet<T>();
+    HashSet<T> _usedSet = new HashSet<T>();
  
 }

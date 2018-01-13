@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using MTUnity.Actions;
+using System;
 
-public class Obstacle : MonoBehaviour {
+public class Obstacle : MonoBehaviour,IPlayState {
 
 
     readonly Color[] colors = {
@@ -113,10 +114,7 @@ public class Obstacle : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        
-        sp.transform.Rotate(new Vector3(0, 0, _dir));
-        transform.position += new Vector3(_horizontalSpeed, 0, 0);
-		
+      
 	}
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -140,5 +138,21 @@ public class Obstacle : MonoBehaviour {
         {
             UpdateColor();
         }
+    }
+
+    public void Play_Enter()
+    {
+    }
+
+    public void Play_Update()
+    {
+  
+        sp.transform.Rotate(new Vector3(0, 0, _dir));
+        transform.position += new Vector3(_horizontalSpeed, 0, 0);
+		
+    }
+
+    public void Play_Exit()
+    {
     }
 }

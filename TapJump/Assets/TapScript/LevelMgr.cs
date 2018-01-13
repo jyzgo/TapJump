@@ -17,6 +17,12 @@ public interface IPlayState
     void Play_Update();
     void Play_Exit();
 }
+public interface IMenuState
+{
+    void Menu_Enter();
+    void Menu_Update();
+    void Menu_Exit();
+}
 
 [DefaultExecutionOrder(-1)]
 public class LevelMgr : MonoBehaviour {
@@ -44,6 +50,7 @@ public class LevelMgr : MonoBehaviour {
     }
     public Action<bool> CtrlListeners;
     public HashSet<IPlayState> _playUpdateSet = new HashSet<IPlayState>();
+    public HashSet<IMenuState> _menuStateSet = new HashSet<IMenuState>();
     public void RegisterPlayState(IPlayState item)
     {
         _playUpdateSet.Add(item);
@@ -52,6 +59,16 @@ public class LevelMgr : MonoBehaviour {
     public void UnRegisterPlayState(IPlayState item)
     {
         _playUpdateSet.Remove(item);
+    }
+
+    public void RegisterMenuState(IMenuState item)
+    {
+        _menuStateSet.Add(item);
+    }
+
+    public void UnRegisterMenuState(IMenuState item)
+    {
+        _menuStateSet.Remove(item);
     }
 
     public static LevelMgr current;
@@ -104,6 +121,10 @@ public class LevelMgr : MonoBehaviour {
         {
             AdMgr.ShowAdmobInterstitial();
         }
+        foreach (var menuState in _menuStateSet)
+        {
+            menuState.Menu_Enter();
+        }
 
     }
 
@@ -117,7 +138,10 @@ public class LevelMgr : MonoBehaviour {
 
         UpdateScore();
 
-
+        foreach(var menuState in _menuStateSet)
+        {
+            menuState.Menu_Exit();
+        }
     }
 
     public void PlayBtn_Click()
@@ -141,16 +165,13 @@ public class LevelMgr : MonoBehaviour {
         {
             b.Play_Enter();
         }
+        
 
     }
 
     Transform _camera;
     void Playing_Update()
     {
-       if(_ball != null)
-        {
-            _ball.Playing_Update();
-        }
        foreach(var b in _playUpdateSet)
         {
             b.Play_Update();
@@ -163,10 +184,10 @@ public class LevelMgr : MonoBehaviour {
 
     public void Tap(float x)
     {
-        if(_ball != null)
+        if(_rocket != null)
         {
 
-            _ball.Taping(x);
+            _rocket.Taping(x);
         }
 
     }
@@ -213,10 +234,10 @@ public class LevelMgr : MonoBehaviour {
 
 
     #region Ball
-    Rocket _ball;
+    Rocket _rocket;
     public void RegisterBall(Rocket bal)
     {
-        _ball = bal;
+        _rocket = bal;
 
     }
     #endregion Ball
