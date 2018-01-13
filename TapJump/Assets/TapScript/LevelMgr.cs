@@ -213,8 +213,8 @@ public class LevelMgr : MonoBehaviour {
 
 
     #region Ball
-    Ball _ball;
-    public void RegisterBall(Ball bal)
+    Rocket _ball;
+    public void RegisterBall(Rocket bal)
     {
         _ball = bal;
 

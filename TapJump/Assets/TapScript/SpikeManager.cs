@@ -9,10 +9,14 @@ public class SpikeManager : MonoBehaviour,IPlayState {
     Vector3 min;
     Vector3 maxL;
     Vector3 maxR;
+    public static SpikeManager current;
+
+    ComponentPool<Obstacle> _obstaclePool;
 
 	// Use this for initialization
 	void Start () {
-
+        current = this;
+        _obstaclePool = new ComponentPool<Obstacle>(5, SpikePrefab, transform);
         LevelMgr.current.RegisterPlayState(this);
         max = new Vector3(Screen.width, Screen.height, 10f);
         min = new Vector3(0, 0, 10f);
@@ -40,10 +44,11 @@ public class SpikeManager : MonoBehaviour,IPlayState {
             {
                 GenerateSpike(RAN);
             }
+            GenerateStatic();
         } 
     }
     float _lastGen = 0f;
-    float _intervalGen = 1f;
+    float _intervalGen = 0.5f;
 
 
     public void Play_Enter()
@@ -56,14 +61,35 @@ public class SpikeManager : MonoBehaviour,IPlayState {
 
     void GenerateSpike(int side)
     {
-        GameObject spike = Instantiate(SpikePrefab);
-        if (side % 4 == 0)
+        Obstacle spike =_obstaclePool.GetUnusedOne();
+        Vector3 x;
+        if (side % 2 == 0)
         {
-            spike.transform.position = maxR;
+            x = maxR;
         }else
         {
-            spike.transform.position = maxL;
+            x = maxL;
         }
+        spike.transform.position = x;
+        int life = MTUnity.Actions.MTRandom.GetRandomInt(1, 10);
+        spike.Init(x.x,life);
         spike.transform.parent = transform;
+    }
+
+    void GenerateStatic()
+    {
+        Obstacle spike = _obstaclePool.GetUnusedOne();
+        float scale = MTUnity.Actions.MTRandom.GetRandomFloat(0, 1f);
+        Vector3 pos = (maxR - maxL) * scale + maxL;
+        spike.transform.position = pos;
+        int life = MTUnity.Actions.MTRandom.GetRandomInt(1, 10);
+        spike.Init(pos.x,life,0);
+        spike.transform.parent = transform;
+    }
+
+     public void RetriveObstacle(Obstacle ob)
+    {
+        ob.gameObject.SetActive(false);
+        _obstaclePool.Retrive(ob);
     }
 }
