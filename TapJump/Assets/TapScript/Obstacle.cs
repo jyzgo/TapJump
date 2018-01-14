@@ -96,26 +96,21 @@ public class Obstacle : MonoBehaviour,IPlayState {
     public void Init(float x,int life =1,float inSpeed = 1f)
     {
         int ran = MTRandom.Next()%2;
-        
-        float speedScale = MTRandom.GetRandomFloat(0.8f,1.5f);
+
+        float speedScale = 0.2f;// MTRandom.GetRandomFloat(0.2f,0.6f);
         _dir = ((float)ran - 0.5f) * 2f;
         if (x > 0)
         {
             _horizontalSpeed = -0.03f * speedScale - 0.01f;
         } else
         {
-            _horizontalSpeed = 0.003f * speedScale + 0.01f;
+            _horizontalSpeed = 0.03f * speedScale + 0.01f;
         }
         _horizontalSpeed *= inSpeed;
 
         _life = life;
         UpdateLife();
     }
-	
-	// Update is called once per frame
-	void Update () {
-      
-	}
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
