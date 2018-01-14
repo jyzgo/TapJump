@@ -93,19 +93,9 @@ public class Obstacle : MonoBehaviour,IPlayState {
     float _dir = 1f;
     float _horizontalSpeed =0f;
     int _life = 1;
-    public void Init(float x,int life =1,float inSpeed = 1f)
+    public void Init(int dir,int life =1,float inSpeed = 0.05f)
     {
-        int ran = MTRandom.Next()%2;
-
-        float speedScale = 0.2f;// MTRandom.GetRandomFloat(0.2f,0.6f);
-        _dir = ((float)ran - 0.5f) * 2f;
-        if (x > 0)
-        {
-            _horizontalSpeed = -0.03f * speedScale - 0.01f;
-        } else
-        {
-            _horizontalSpeed = 0.03f * speedScale + 0.01f;
-        }
+        _horizontalSpeed = dir;
         _horizontalSpeed *= inSpeed;
 
         _life = life;

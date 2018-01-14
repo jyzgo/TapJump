@@ -41,13 +41,21 @@ public class SpikeManager : MonoBehaviour, IPlayState,IMenuState
         transform.position -= MANAGER_SPEED;
         if (Time.time - _intervalGen > _lastGen)
         {
-            int RAN = MTUnity.Actions.MTRandom.Next();
             _lastGen = Time.time;
+            int RAN = MTUnity.Actions.MTRandom.Next();
+            int dir = 1;
             if (RAN % 2 == 0)
             {
-                GenerateSpike(RAN);
+                dir = -1;
             }
-            GenerateStatic();
+
+            for(int i = 0; i < 10; i ++)
+            {
+                Obstacle ob = _obstaclePool.GetUnusedOne();
+                ob.Init(dir, 10);
+                ob.transform.parent = transform;
+
+            }
         }
         var usedSet = _obstaclePool.GetUsedSet();
         foreach (var b in usedSet)
@@ -56,7 +64,7 @@ public class SpikeManager : MonoBehaviour, IPlayState,IMenuState
         }
     }
     float _lastGen = 0f;
-    float _intervalGen = 0.5f;
+    float _intervalGen = 2f;
 
 
     public void Play_Enter()
@@ -81,8 +89,6 @@ public class SpikeManager : MonoBehaviour, IPlayState,IMenuState
         }
         spike.transform.position = x;
         int life = MTUnity.Actions.MTRandom.GetRandomInt(1, 10);
-        spike.Init(x.x, life);
-        spike.transform.parent = transform;
     }
 
     void GenerateStatic()
@@ -92,7 +98,6 @@ public class SpikeManager : MonoBehaviour, IPlayState,IMenuState
         Vector3 pos = (maxR - maxL) * scale + maxL;
         spike.transform.position = pos;
         int life = MTUnity.Actions.MTRandom.GetRandomInt(1, 10);
-        spike.Init(pos.x, life, 0);
         spike.transform.parent = transform;
     }
 
