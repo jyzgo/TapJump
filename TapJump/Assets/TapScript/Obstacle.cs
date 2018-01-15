@@ -93,10 +93,9 @@ public class Obstacle : MonoBehaviour,IPlayState {
     float _dir = 1f;
     float _horizontalSpeed =0f;
     int _life = 1;
-    public void Init(int dir,int life =1,float inSpeed = 0.05f)
+    public void Init(int dir, int life = 1)
     {
-        _horizontalSpeed = dir;
-        _horizontalSpeed *= inSpeed;
+        _horizontalSpeed = dir * 0.01f;
 
         _life = life;
         UpdateLife();
@@ -118,7 +117,7 @@ public class Obstacle : MonoBehaviour,IPlayState {
         LifeNum.text = _life.ToString();
         if (_life <= 0)
         {
-            SpikeManager.current.RetriveObstacle(this);
+            SpikeManager.current.AddToRetriveSet(this);
         }
         else
         {
@@ -132,21 +131,35 @@ public class Obstacle : MonoBehaviour,IPlayState {
 
     public void Play_Update()
     {
-  
-        //sp.transform.Rotate(new Vector3(0, 0, _dir));
-
         transform.position += new Vector3(_horizontalSpeed, 0, 0);
         Vector3 oriPos = transform.position;
-        
-        if (oriPos.x < LevelMgr.current.minX)
+ 
+        if (oriPos.y < _minY)
         {
-            transform.position = new Vector3(LevelMgr.current.maxX, oriPos.y, oriPos.z);
+            SpikeManager.current.AddToRetriveSet(this);
         }
-		else if(oriPos.x > LevelMgr.current.maxX)
+
+      
+        if (oriPos.x < minX)
         {
-            transform.position = new Vector3(LevelMgr.current.minX, oriPos.y, oriPos.z);
+            transform.position = new Vector3(maxX, oriPos.y, oriPos.z);
+        }
+		else if(oriPos.x > maxX)
+        {
+            transform.position = new Vector3(minX, oriPos.y, oriPos.z);
         }
     }
+
+    private void Start()
+    {
+        minX = LevelMgr.current.minX - 0.5f;
+        maxX = LevelMgr.current.maxX + 0.5f;
+        _minY = LevelMgr.current.minY - 1f;
+        
+    }
+    float minX;
+    float maxX;
+    float _minY;
 
     public void Play_Exit()
     {

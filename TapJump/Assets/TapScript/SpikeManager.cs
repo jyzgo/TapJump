@@ -29,13 +29,17 @@ public class SpikeManager : MonoBehaviour, IPlayState,IMenuState
         maxL = new Vector3(min.x, max.y, max.z);
         maxR = max;
         _originalPos = transform.position;
+        float everyX = (maxR.x - maxL.x) / ROW_NUM;
+        _gap = new Vector3(everyX, 0, 0);
+
 
     }
+    Vector3 _gap;
 
     readonly Vector3 MANAGER_SPEED = new Vector3(0, 0.02f, 0);
 
     Vector3 _originalPos;
-
+    const int ROW_NUM = 10;
     public void Play_Update()
     {
         transform.position -= MANAGER_SPEED;
@@ -48,10 +52,11 @@ public class SpikeManager : MonoBehaviour, IPlayState,IMenuState
             {
                 dir = -1;
             }
-
-            for(int i = 0; i < 10; i ++)
+            for (int i = 0; i < ROW_NUM; i++)
             {
                 Obstacle ob = _obstaclePool.GetUnusedOne();
+
+                ob.transform.position = maxL + i * _gap;
                 ob.Init(dir, 10);
                 ob.transform.parent = transform;
 
@@ -62,6 +67,11 @@ public class SpikeManager : MonoBehaviour, IPlayState,IMenuState
         {
             b.Play_Update();
         }
+        foreach(var b in _retriveSet)
+        {
+            DoneRetrive(b);
+        }
+        _retriveSet.Clear();
     }
     float _lastGen = 0f;
     float _intervalGen = 2f;
@@ -101,10 +111,17 @@ public class SpikeManager : MonoBehaviour, IPlayState,IMenuState
         spike.transform.parent = transform;
     }
 
-    public void RetriveObstacle(Obstacle ob)
+    HashSet<Obstacle> _retriveSet = new HashSet<Obstacle>();
+    public void AddToRetriveSet (Obstacle ob)
+    {
+        _retriveSet.Add(ob);
+    }
+
+    void DoneRetrive(Obstacle ob)
     {
         ob.gameObject.SetActive(false);
         _obstaclePool.Retrive(ob);
+ 
     }
 
     public void Menu_Enter()
