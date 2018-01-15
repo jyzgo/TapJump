@@ -187,13 +187,18 @@ public class LevelMgr : MonoBehaviour {
        
     }
 
-    public void Tap(float x)
+    Vector3 _beginPos;
+    Vector3 _rocketPos;
+    public void BegainTouch(Vector3 BeginPos)
     {
-        if(_rocket != null)
-        {
+        _beginPos = BeginPos;
+        _rocketPos = _rocket.transform.position;
 
-            _rocket.Taping(x);
-        }
+    }
+    public void TouchMoving(Vector3 touchPos)
+    {
+        Vector3 offset = touchPos - _beginPos;
+        _rocket.SetPosInScreen(_rocketPos , offset);
 
     }
     void Playing_Exit()

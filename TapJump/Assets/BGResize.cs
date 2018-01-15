@@ -55,7 +55,7 @@ public class BGResize : MonoBehaviour,ICtrlAble {
             var v3 = Input.mousePosition;
             v3.z = 10f;
             touchPos = Camera.main.ScreenToWorldPoint(v3);
-           LevelMgr.current.Tap(touchPos.x);
+           LevelMgr.current.BegainTouch(touchPos);
        }
 
     }
@@ -75,6 +75,18 @@ public class BGResize : MonoBehaviour,ICtrlAble {
 
                 }
             }
+        }
+    }
+
+    private void OnMouseDrag()
+    {
+        if(_ctrlAble)
+        {
+            var v3 = Input.mousePosition;
+            v3.z = 10f;
+            touchPos = Camera.main.ScreenToWorldPoint(v3);
+
+            LevelMgr.current.TouchMoving(touchPos);
         }
     }
 

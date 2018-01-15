@@ -17,20 +17,6 @@ public class Rocket : MonoBehaviour,ICtrlAble,IPlayState,IMenuState {
     public GameObject bulletPrefab;
 
     float _currentSpeed = 0f;
-    public void Taping(float x)
-    {
-        if(x > 0)
-        {
-            _horizontalDir = -1;
-        }else
-        {
-            _horizontalDir = 1;
-        }
-        _currentSpeed = JUMP_SPEED;
-        _glow.enableEmission = true;
-        StartCoroutine(StopGlow());
-
-    }
     IEnumerator StopGlow()
     {
         yield return new WaitForSeconds(0.1f);
@@ -107,24 +93,21 @@ public class Rocket : MonoBehaviour,ICtrlAble,IPlayState,IMenuState {
             var b = _bulletPool.GetUnusedOne();
             b.transform.position = transform.position;
         }
-        Vector3 originPos = transform.position;
-        float x = transform.position.x;
-        if(x < minX)
-        {
-            transform.position = new Vector3(maxX, originPos.y, originPos.z);
-        }else if(x > maxX)
-        {
+        //Vector3 originPos = transform.position;
+        //float x = transform.position.x;
+        //if(x < minX)
+        //{
+        //    transform.position = new Vector3(maxX, originPos.y, originPos.z);
+        //}else if(x > maxX)
+        //{
 
-            transform.position = new Vector3(minX, originPos.y, originPos.z);
-        }
-        _currentSpeed += DELTA_SPEED;
-        Vector3 offset = new Vector3(HONRIZONTAL_SPEED * _horizontalDir, _currentSpeed,0f);
-        transform.localPosition+= offset;
+        //    transform.position = new Vector3(minX, originPos.y, originPos.z);
+        //}
+        //_currentSpeed += DELTA_SPEED;
+        //Vector3 offset = new Vector3(HONRIZONTAL_SPEED * _horizontalDir, _currentSpeed,0f);
+        //transform.localPosition+= offset;
 
-        if(transform.position.y < LevelMgr.current.minY || transform.position.y > LevelMgr.current.maxY)
-        {
-            LevelMgr.current.ToLose();
-        }
+       //}
 
 
     }
@@ -144,5 +127,15 @@ public class Rocket : MonoBehaviour,ICtrlAble,IPlayState,IMenuState {
 
     public void Menu_Exit()
     {
+    }
+
+    internal void SetPosInScreen(Vector3 vector3,Vector3 offset)
+    {
+        Vector3 endPos = vector3 + offset;
+        if (endPos.y > LevelMgr.current.minY && endPos.y < LevelMgr.current.maxY && endPos.x > LevelMgr.current.minX && endPos.x < LevelMgr.current.maxX)
+        {
+            transform.position = endPos;
+        }
+
     }
 }
