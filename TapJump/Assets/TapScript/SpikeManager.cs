@@ -29,7 +29,7 @@ public class SpikeManager : MonoBehaviour, IPlayState,IMenuState
         maxL = new Vector3(min.x, max.y, max.z);
         maxR = max;
         _originalPos = transform.position;
-        float everyX = (maxR.x - maxL.x) / ROW_NUM;
+        float everyX = (maxR.x - maxL.x + 2f) / ROW_NUM;
         _gap = new Vector3(everyX, 0, 0);
 
 
@@ -48,6 +48,7 @@ public class SpikeManager : MonoBehaviour, IPlayState,IMenuState
             _lastGen = Time.time;
             int RAN = MTUnity.Actions.MTRandom.Next();
             int dir = 1;
+
             if (RAN % 2 == 0)
             {
                 dir = -1;
@@ -55,9 +56,8 @@ public class SpikeManager : MonoBehaviour, IPlayState,IMenuState
             for (int i = 0; i < ROW_NUM; i++)
             {
                 Obstacle ob = _obstaclePool.GetUnusedOne();
-
                 ob.transform.position = maxL + i * _gap;
-                ob.Init(dir, 10);
+                ob.Init(dir, 5);
                 ob.transform.parent = transform;
 
             }

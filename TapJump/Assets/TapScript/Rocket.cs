@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Rocket : MonoBehaviour,ICtrlAble,IPlayState,IMenuState {
 
-    ComponentPool<Bullet> _bulletPool;
+    public ComponentPool<Bullet> _bulletPool;
     public static Rocket current;
 
     float _speed = 0f;
@@ -17,16 +17,13 @@ public class Rocket : MonoBehaviour,ICtrlAble,IPlayState,IMenuState {
     public GameObject bulletPrefab;
 
     float _currentSpeed = 0f;
-    IEnumerator StopGlow()
-    {
-        yield return new WaitForSeconds(0.1f);
-        _glow.enableEmission = false;
-    }
     Vector3 originPos;
     void Awake()
     {
         originPos = transform.position;
     }
+
+    public FireComponent _fireComponent;
 	// Use this for initialization
 	void Start () {
         LevelMgr.current.CtrlListeners += this.SetCtrlAble;
@@ -45,7 +42,6 @@ public class Rocket : MonoBehaviour,ICtrlAble,IPlayState,IMenuState {
         minY = min.y;
         maxY = max.y;
         _glow.Play();
-        _glow.enableEmission = false;
 
 
 	}
@@ -53,8 +49,6 @@ public class Rocket : MonoBehaviour,ICtrlAble,IPlayState,IMenuState {
     float minY;
     float maxX;
     float maxY;
-    const float FIRE_INTERVAL = 0.1f;
-    float _last_fire = 0f;
     float _horizontalDir = 1f;
 
     bool _isCtrlAble = false;
@@ -87,13 +81,8 @@ public class Rocket : MonoBehaviour,ICtrlAble,IPlayState,IMenuState {
 
     public void Play_Update()
     {
-        if (Time.time > _last_fire + FIRE_INTERVAL)
-        {
-            _last_fire = Time.time;
-            var b = _bulletPool.GetUnusedOne();
-            b.transform.position = transform.position;
-        }
-        //Vector3 originPos = transform.position;
+        _fireComponent.Fire();
+             //Vector3 originPos = transform.position;
         //float x = transform.position.x;
         //if(x < minX)
         //{

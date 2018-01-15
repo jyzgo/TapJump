@@ -95,7 +95,7 @@ public class Obstacle : MonoBehaviour,IPlayState {
     int _life = 1;
     public void Init(int dir, int life = 1)
     {
-        _horizontalSpeed = dir * 0.01f;
+        _horizontalSpeed = dir * 0.005f;
 
         _life = life;
         UpdateLife();
@@ -137,28 +137,29 @@ public class Obstacle : MonoBehaviour,IPlayState {
         if (oriPos.y < _minY)
         {
             SpikeManager.current.AddToRetriveSet(this);
+            return;
         }
 
       
-        if (oriPos.x < minX)
-        {
-            transform.position = new Vector3(maxX, oriPos.y, oriPos.z);
-        }
-		else if(oriPos.x > maxX)
-        {
-            transform.position = new Vector3(minX, oriPos.y, oriPos.z);
-        }
+  //      if (oriPos.x < _minX)
+  //      {
+  //          transform.position = new Vector3(_maxX, oriPos.y, oriPos.z);
+  //      }
+		//else if(oriPos.x > _maxX)
+  //      {
+  //          transform.position = new Vector3(_minX, oriPos.y, oriPos.z);
+  //      }
     }
 
     private void Start()
     {
-        minX = LevelMgr.current.minX - 0.5f;
-        maxX = LevelMgr.current.maxX + 0.5f;
+        _minX = LevelMgr.current.minX - 0.5f;
+        _maxX = LevelMgr.current.maxX + 0.5f;
         _minY = LevelMgr.current.minY - 1f;
         
     }
-    float minX;
-    float maxX;
+    float _minX;
+    float _maxX;
     float _minY;
 
     public void Play_Exit()

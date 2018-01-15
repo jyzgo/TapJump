@@ -424,6 +424,8 @@
     <Compile Include="Assets\Scripts\TrackData\TrackData.cs" />
     <Compile Include="Assets\SlideIn.cs" />
     <Compile Include="Assets\SoEncrypt.cs" />
+    <Compile Include="Assets\TapScript\BasePowerUp.cs" />
+    <Compile Include="Assets\TapScript\FireComponent.cs" />
     <Compile Include="Assets\TapScript\LevelMgr.cs" />
     <Compile Include="Assets\TapScript\Obstacle.cs" />
     <Compile Include="Assets\TapScript\Rocket.cs" />

@@ -77,6 +77,7 @@ public class LevelMgr : MonoBehaviour {
 
 
     StateMachine<LevelState> fsm;
+    public int wave = 1;
     public void Awake()
     {
         current = this;
@@ -94,6 +95,7 @@ public class LevelMgr : MonoBehaviour {
         minX = min.x;
         maxY = max.y;
         minY = min.y;
+        wave = 1;
 
         _camera = Camera.main.transform;
         _camOriginalPos = _camera.position;
