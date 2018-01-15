@@ -432,6 +432,7 @@
     <Compile Include="Assets\TapScript\SpikeManager.cs" />
     <Compile Include="Assets\TapScript\Tools\ComponentPool.cs" />
     <Compile Include="Assets\TapScript\Tools\SFXPool.cs" />
+    <Compile Include="Assets\TapScript\TripleComponent.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Adjust\Android\AdjustAndroidManifest.xml" />

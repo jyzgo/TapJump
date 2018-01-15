@@ -7,19 +7,21 @@ using UnityEngine;
 public class FireComponent : MonoBehaviour {
 
 
-    const float FIRE_INTERVAL = 0.1f;
-    float _last_fire = 0f;
-    private void Start()
+    protected float _fire_interval = 0.1f;
+    protected float _last_fire = 0f;
+
+    public virtual void Init()
     {
 
     }
 
-    public void Fire()
+    public virtual void Fire()
     {
-        if (Time.time > _last_fire + FIRE_INTERVAL)
+        if (Time.time > _last_fire + _fire_interval)
         {
             _last_fire = Time.time;
             var b =Rocket.current._bulletPool.GetUnusedOne();
+            b.transform.rotation = Quaternion.identity;
             b.transform.position = transform.position;
         }
 

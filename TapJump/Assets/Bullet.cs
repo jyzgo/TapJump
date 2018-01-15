@@ -22,7 +22,8 @@ public class Bullet : MonoBehaviour,IPlayState {
 
     public void Play_Update()
     {
-        transform.position += SPEED;
+        
+        transform.position += 0.2f * transform.up;
         if (transform.position.y > 6f)
         {
             Rocket.current.RetriveBullet(this);
