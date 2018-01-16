@@ -74,6 +74,7 @@ public class LevelMgr : MonoBehaviour {
     public static LevelMgr current;
 
     public ComponentPool<ParticleSystem> _parPool;
+    
 
 
     StateMachine<LevelState> fsm;

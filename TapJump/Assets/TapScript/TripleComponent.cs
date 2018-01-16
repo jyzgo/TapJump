@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TripleComponent : FireComponent {
+    public TripleComponent(Transform rocketTrans) : base(rocketTrans)
+    {
+        _rockTrans = rocketTrans;
+    }
 
     public override void Init()
     {
         _fire_interval = 0.25f;
     }
-    public override void Fire()
+    public override void Fire(int powerUpLv)
     {
         if (Time.time > _last_fire + _fire_interval)
         {
@@ -17,7 +21,7 @@ public class TripleComponent : FireComponent {
             {
                 var b = Rocket.current._bulletPool.GetUnusedOne();
                 b.transform.rotation = Quaternion.identity;
-                b.transform.position = transform.position - Vector3.left * (-0.2f + 0.2f * i);
+                b.transform.position = _rockTrans.position - Vector3.left * (-0.2f + 0.2f * i);
 
             }
 

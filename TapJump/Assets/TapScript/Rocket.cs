@@ -3,6 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum FireComponentEnum
+{
+    Single,
+    Triple,
+    FanShaped
+
+}
+
 public class Rocket : MonoBehaviour,ICtrlAble,IPlayState,IMenuState {
 
     public ComponentPool<Bullet> _bulletPool;
@@ -15,6 +23,18 @@ public class Rocket : MonoBehaviour,ICtrlAble,IPlayState,IMenuState {
     const float HONRIZONTAL_SPEED = 0.04f;
     public ParticleSystem _glow;
     public GameObject bulletPrefab;
+
+    internal void PowerUp()
+    {
+        if (_powerUpLevel < MAX_POWERUP)
+        {
+            _powerUpLevel++;
+        }
+
+    }
+
+    public int _powerUpLevel = 0;
+    public const int MAX_POWERUP = 3;
 
     float _currentSpeed = 0f;
     Vector3 originPos;
@@ -42,9 +62,21 @@ public class Rocket : MonoBehaviour,ICtrlAble,IPlayState,IMenuState {
         minY = min.y;
         maxY = max.y;
         _glow.Play();
-
-
+        AddFireComponent(FireComponentEnum.Single);
 	}
+
+    public void AddFireComponent(FireComponentEnum en)
+    {
+        if(en == FireComponentEnum.Triple)
+        {
+            _fireComponent = new TripleComponent(transform);
+        }else
+        {
+            _fireComponent = new FireComponent(transform);
+        }
+    }
+
+
     float minX;
     float minY;
     float maxX;
@@ -81,7 +113,7 @@ public class Rocket : MonoBehaviour,ICtrlAble,IPlayState,IMenuState {
 
     public void Play_Update()
     {
-        _fireComponent.Fire();
+        _fireComponent.Fire(_powerUpLevel);
              //Vector3 originPos = transform.position;
         //float x = transform.position.x;
         //if(x < minX)
