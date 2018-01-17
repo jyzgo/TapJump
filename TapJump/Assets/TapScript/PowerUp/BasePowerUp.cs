@@ -31,7 +31,13 @@ public class BasePowerUp : MonoBehaviour,IPlayState {
 
     public void Play_Update()
     {
-      //  transform.position += 0.02f * Vector3.down;
+        transform.position += 0.02f * Vector3.down;
+        if (transform.position.y <-6f)
+        {
+            LevelMgr.current.UnregesterOnUpdate(this);
+            Destroy(gameObject);
+        }
+
     }
 
     public void Play_Exit()

@@ -115,6 +115,7 @@ public class Rocket : MonoBehaviour,ICtrlAble,IPlayState,IMenuState {
 
     public void Play_Enter()
     {
+        _powerUpLevel = 0;
         transform.position = originPos;
     }
 

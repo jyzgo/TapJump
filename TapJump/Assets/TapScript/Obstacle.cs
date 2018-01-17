@@ -117,12 +117,18 @@ public class Obstacle : MonoBehaviour,IPlayState {
         LifeNum.text = _life.ToString();
         if (_life <= 0)
         {
-            SpikeManager.current.AddToRetriveSet(this);
+            RetriveThis();
         }
         else
         {
             UpdateColor();
         }
+    }
+
+    protected virtual void RetriveThis()
+    {
+        LevelMgr.current.ObstacleCleaned(transform.position);
+        SpikeManager.current.AddToRetriveSet(this);
     }
 
     public void Play_Enter()
@@ -139,17 +145,7 @@ public class Obstacle : MonoBehaviour,IPlayState {
             SpikeManager.current.AddToRetriveSet(this);
             return;
         }
-
-      
-  //      if (oriPos.x < _minX)
-  //      {
-  //          transform.position = new Vector3(_maxX, oriPos.y, oriPos.z);
-  //      }
-		//else if(oriPos.x > _maxX)
-  //      {
-  //          transform.position = new Vector3(_minX, oriPos.y, oriPos.z);
-  //      }
-    }
+   }
 
     private void Start()
     {

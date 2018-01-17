@@ -136,7 +136,25 @@ public class LevelMgr : MonoBehaviour {
 
     }
 
+    public GameObject PowerUpPrefab;
+    public GameObject[] BulletSwitchers;
+    int _obstacleCount = 0;
+    internal void ObstacleCleaned(Vector3 position)
+    {
+        _obstacleCount++;
+        if (_obstacleCount %11 ==0 )
+        {
+            var powerUp = Instantiate(PowerUpPrefab);
+            powerUp.transform.position = position;
+        }
 
+        if (_obstacleCount % 17 ==0)
+        {
+            int switerRand = MTRandom.GetRandomInt(0, BulletSwitchers.Length - 1);
+            var bulletSwicher = Instantiate(BulletSwitchers[switerRand]);
+            bulletSwicher.transform.position = position;
+        }
+    }
 
     void Menu_Exit()
     {
@@ -162,6 +180,8 @@ public class LevelMgr : MonoBehaviour {
 
     void Playing_Enter()
     {
+        
+        _obstacleCount = 0;
         _camera.transform.position = _camOriginalPos;
 
         if (CtrlListeners != null)
@@ -186,9 +206,21 @@ public class LevelMgr : MonoBehaviour {
         }
 
        // _camera.position += CAMERA_SPEED; 
+       foreach(var b in _retriveSet)
+        {
+            _playUpdateSet.Remove(b);
+        }
+        _retriveSet.Clear();
 
        
     }
+
+    HashSet<IPlayState> _retriveSet = new HashSet<IPlayState>();
+    public void UnregesterOnUpdate(IPlayState playstate)
+    {
+        _retriveSet.Add(playstate);
+    }
+    
 
     Vector3 _beginPos;
     Vector3 _rocketPos;
