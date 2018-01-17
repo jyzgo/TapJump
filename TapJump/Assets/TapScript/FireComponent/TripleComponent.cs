@@ -10,24 +10,29 @@ public class TripleComponent : FireComponent {
 
     public override void Init()
     {
-        _fire_interval = 0.25f;
+        _fire_interval = 0.35f;
     }
-    public override void Fire(int powerUpLv)
-    {
-        if (Time.time > _last_fire + _fire_interval)
+    readonly Vector3 Offset = new Vector3(0, 0, 4f);
+    const float DISTANCE = 0.1f;
+    public override void Fire(int powerUpLevel)
+    {   if (Time.time > _last_fire + _fire_interval)
         {
             _last_fire = Time.time;
-            for (int i = 0; i < 3; i++)
+            int BulletNum = powerUpLevel * 2 + 1;
+            Vector3 startRotation = Vector3.zero - powerUpLevel* Offset;
+
+            Vector3 startPos = _rockTrans.position + Vector3.left * (float)(BulletNum-1) / 2f * DISTANCE;
+            for (int i = 0; i < BulletNum; i++)
             {
                 var b = Rocket.current._bulletPool.GetUnusedOne();
-                b.transform.rotation = Quaternion.identity;
-                b.transform.position = _rockTrans.position - Vector3.left * (-0.2f + 0.2f * i);
+                b.SetType(BulletTypeEnum.Purple);
+                b.transform.eulerAngles = startRotation +  i * Offset;
+               // b.transform.position = _rockTrans.position;
+                b.transform.position = startPos + Vector3.right * DISTANCE * i;
 
             }
 
         }
-
-
 
     }
 }

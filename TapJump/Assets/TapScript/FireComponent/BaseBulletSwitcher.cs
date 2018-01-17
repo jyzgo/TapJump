@@ -4,21 +4,21 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(BoxCollider2D))]
-public class FanBulletSwitcher: MonoBehaviour,IPlayState {
+public class BaseBulletSwitcher: MonoBehaviour,IPlayState {
 
 	// Use this for initialization
 	void Start () {
         LevelMgr.current.RegisterPlayState(this);
 	}
-	
-    
+
+    public FireComponentEnum fireType;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         var rocket = collision.GetComponent<Rocket>();
         if(rocket != null)
         {
-            rocket.SwitchFireComponent(FireComponentEnum.FanShaped);
+            rocket.SwitchFireComponent(fireType);
             LevelMgr.current.UnRegisterPlayState(this);
             Destroy(gameObject);
         }

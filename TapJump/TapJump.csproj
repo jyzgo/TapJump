@@ -424,7 +424,7 @@
     <Compile Include="Assets\Scripts\TrackData\TrackData.cs" />
     <Compile Include="Assets\SlideIn.cs" />
     <Compile Include="Assets\SoEncrypt.cs" />
-    <Compile Include="Assets\TapScript\FireComponent\FanBulletSwitcher.cs" />
+    <Compile Include="Assets\TapScript\FireComponent\BaseBulletSwitcher.cs" />
     <Compile Include="Assets\TapScript\FireComponent\FanShapeComponent.cs" />
     <Compile Include="Assets\TapScript\FireComponent\FireComponent.cs" />
     <Compile Include="Assets\TapScript\FireComponent\TripleComponent.cs" />
