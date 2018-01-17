@@ -62,17 +62,24 @@ public class Rocket : MonoBehaviour,ICtrlAble,IPlayState,IMenuState {
         minY = min.y;
         maxY = max.y;
         _glow.Play();
-        AddFireComponent(FireComponentEnum.Single);
+        SwitchFireComponent(FireComponentEnum.Single);
 	}
 
-    public void AddFireComponent(FireComponentEnum en)
+    public void SwitchFireComponent(FireComponentEnum en)
     {
-        if(en == FireComponentEnum.Triple)
-        {
-            _fireComponent = new TripleComponent(transform);
-        }else
-        {
-            _fireComponent = new FireComponent(transform);
+        switch (en){
+            case FireComponentEnum.Single:
+                _fireComponent = new FireComponent(transform);
+                break;
+            case FireComponentEnum.Triple:
+                _fireComponent = new TripleComponent(transform);
+                break;
+            case FireComponentEnum.FanShaped:
+                _fireComponent = new FanShapeComponent(transform);
+                break;
+            default:
+                break;
+
         }
     }
 

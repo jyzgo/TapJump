@@ -40,6 +40,9 @@ public class SpikeManager : MonoBehaviour, IPlayState,IMenuState
 
     Vector3 _originalPos;
     const int ROW_NUM = 10;
+    int LevelLife = 0;
+    int lifeAddInterval = 3;
+
     public void Play_Update()
     {
         transform.position -= MANAGER_SPEED;
@@ -57,7 +60,8 @@ public class SpikeManager : MonoBehaviour, IPlayState,IMenuState
             {
                 Obstacle ob = _obstaclePool.GetUnusedOne();
                 ob.transform.position = maxL + i * _gap;
-                ob.Init(dir, 5);
+                ob.Init(dir, 5 + LevelLife / lifeAddInterval);
+                LevelLife++;
                 ob.transform.parent = transform;
 
             }

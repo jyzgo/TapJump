@@ -55,8 +55,7 @@ public class FireComponent {
         if (Time.time > _last_fire + _fire_interval)
         {
             _last_fire = Time.time;
-            var b =Rocket.current._bulletPool.GetUnusedOne();
-            b.transform.rotation = Quaternion.identity;
+            var b = GetBullet();
             b.transform.position = _rockTrans.position;
         }
     }
@@ -93,12 +92,19 @@ public class FireComponent {
         Vector3 startPos = _rockTrans.position +  Vector3.left*(float)(index)/2f * DISTANCE;
         for(int i = 0; i <index + 1; i++)
         {
-            var b = Rocket.current._bulletPool.GetUnusedOne();
-            b.transform.rotation = Quaternion.identity;
+            var b = GetBullet();
             b.transform.position = startPos + Vector3.right * DISTANCE * i;
 
         }
     }
-    
-    
+
+    Bullet GetBullet()
+    {
+        var b = Rocket.current._bulletPool.GetUnusedOne();
+        b.transform.rotation = Quaternion.identity;
+        b.SetType(BulletTypeEnum.Red);
+        return b;
+    }
+
+
 }
